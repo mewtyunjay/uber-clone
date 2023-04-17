@@ -5,10 +5,11 @@ import NavOptions from "../components/NavOptions";
 // twrnc is a library that allows us to use tailwind css in react native
 
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
-import { GOOGLE_MAPS_KEY, GOOGLE_PLACES_KEY } from "@env";
+import { GOOGLE_MAPS_KEY } from "@env";
 
 import { useDispatch } from "react-redux";
 import { setDestination, setOrigin } from "../slices/navSlice";
+import NavFavourites from "../components/NavFavourites";
 
 
 const HomeScreen = () => {
@@ -20,14 +21,16 @@ const HomeScreen = () => {
         // tw bg-white h-full is a tailwind css class that sets the background color to white and the height to full for the SafeAreaView
         <SafeAreaView style={tw`bg-white h-full`}> 
             <View style={tw`p-5`}>
+            {/* <View style={tw`p-5 flex-1 justify-center items-center`}> */}
                 <Image
                 style={{
                     width: 100, 
                     height: 100,
                     resizeMode: "contain"
                 }}
+                // style={tw`p-12 flex-1 justify-center items-center`}
                 source={{
-                    uri: "https://links.papareact.com/gzs"
+                    uri: "/Users/mrityunjay/Code/2023/uber-clone/assets/logo.png"
                 }}
                 />
         
@@ -57,7 +60,7 @@ const HomeScreen = () => {
                 enablePoweredByContainer={false} // remove the powered by google logo
                 minLength={2} // minimum number of characters to start searching
                 query={{
-                    key: GOOGLE_PLACES_KEY,
+                    key: GOOGLE_MAPS_KEY,
                     language: "en",
                 }}
                 nearbyPlacesAPI="GooglePlacesSearch"
@@ -65,6 +68,7 @@ const HomeScreen = () => {
             />
 
             <NavOptions/>
+            <NavFavourites/>
             </View>
         </SafeAreaView>
     );

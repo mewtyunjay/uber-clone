@@ -6,7 +6,11 @@ const initialState = {
     travelTimeInformation: null,    // null or {duration, distance}
 }
 
-//   createSlice() is a function that takes an object as an argument.
+//   createSlice() is a function that does 3 things:
+//   1. Creates a slice of the store.
+//   2. Creates an action for each case reducer function.
+//   3. Creates a reducer function that returns the initial state or the result of the next reducer function.
+
 //   The object has 3 properties: name, initialState, reducers.
 //   The name property is a string that is the name of the slice.
 //   The reducers property has 3 properties: setOrigin, setDestination, setTravelTimeInformation.
