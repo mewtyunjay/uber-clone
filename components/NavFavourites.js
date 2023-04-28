@@ -9,15 +9,23 @@ const data = [
         id: "123",
         icon: "home",
         location: "Home",
-        destination: "Buildspace HQ, San Francisco, CA"
+        destination: "BBSR"
     },
     {
         id: "456",
         icon: "briefcase",
         location: "Work",
-        destination: "Buildspace, Dubai, UAE"
+        destination: "BLR"
     }
 ]
+
+const handlePress = (location) => {
+    // console.warn("Pressed", location)
+    
+    if (location === "Home") {
+        console.warn("Home")
+    }
+}
 
 const NavFavourites = () => {
     return (                 
@@ -28,7 +36,11 @@ const NavFavourites = () => {
             <View style={[tw`bg-gray-200`, { height: 0.5 }]} />
         )}
         renderItem={({item}) => (
-            <TouchableOpacity style={tw`flex-row items-center p-5`}>
+            <TouchableOpacity 
+            style={tw`flex-row items-center p-5`}
+            onPress={() => handlePress(item.location)}
+            >
+
                 <Icon
                     style={tw`mr-4 rounded-full bg-gray-300 p-3`}
                     name={item.icon}

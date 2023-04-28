@@ -1,9 +1,9 @@
 import React, { useEffect, useRef }  from 'react';
 import { StyleSheet, Text, View} from 'react-native';
 import  Mapview, { Marker }  from 'react-native-maps';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch} from 'react-redux';
 import tw from "twrnc";
-import { selectOrigin, setOrigin, selectDestination} from '../slices/navSlice';
+import { selectOrigin, setOrigin, selectDestination, setTravelTimeInformation} from '../slices/navSlice';
 import { GOOGLE_MAPS_KEY } from "@env";
 import MapViewDirections from 'react-native-maps-directions';
 
@@ -13,6 +13,7 @@ const Map = () => {
     const origin = useSelector(selectOrigin)
     const destination = useSelector(selectDestination)
     const mapReference = useRef(null); // this is to reference the map to be able to zoom in and out
+    const dispatch = useDispatch();
     
     useEffect(() => {
         if (!origin || !destination) return; // if origin or destination is not set, then return
@@ -21,6 +22,21 @@ const Map = () => {
         mapReference.current.fitToSuppliedMarkers(['origin', 'destination'], { 
             edgePadding: { top: 50, right: 50, bottom: 50, left: 50 }})
     }, [origin, destination])
+
+    // useEffect for calculating the distance and time
+    useEffect(() => {
+        if (!origin || !destination) return; // if origin or destination is not set, then return
+
+        const getTravelTime = async () => {
+            fetch(`https://maps.googleapis.com/maps/api/distancematrix/json?
+            units=imperial&origins=${origin.description}&destinations=${destination.description}&key=${GOOGLE_MAPS_KEY}`)
+            .then((res) => res.json())
+            .then((data) => {
+                dispatch(setTravelTimeInformation(data.rows[0].elements[0]))
+            })
+        }
+        getTravelTime();
+    }, [origin, destination, GOOGLE_MAPS_KEY])
     
     return (
         <Mapview
